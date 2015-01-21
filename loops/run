@@ -1,0 +1,11 @@
+#!/bin/bash
+
+gcc -O3 -std=gnu99 -Wall -Wextra -Werror -pedantic -o count_down count_down.c
+gcc -O3 -std=gnu99 -Wall -Wextra -Werror -pedantic -o count_up count_up.c 
+
+perf stat -r 100 ./count_up 2>&1 | grep "time elapsed"
+perf stat -r 100 ./count_down 2>&1 | grep "time elapsed"
+
+objdump -S count_up | grep -A 999 "<main>" | sed -e '/^$/,$d'
+objdump -S count_down | grep -A 999 "<main>" | sed -e '/^$/,$d'
+
